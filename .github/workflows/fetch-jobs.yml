@@ -1,0 +1,28 @@
+name: Buscar ofertas
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Ejecutar búsqueda
+        env:
+          INFOJOBS_ID: ${{ secrets.INFOJOBS_ID }}
+          INFOJOBS_SECRET: ${{ secrets.INFOJOBS_SECRET }}
+          ADZUNA_ID: ${{ secrets.ADZUNA_ID }}
+          ADZUNA_KEY: ${{ secrets.ADZUNA_KEY }}
+        run: node scripts/fetch-jobs.mjs
+      - name: Guardar cambios
+        run: |
+          git config user.name "jobs-bot"
+          git config user.email "jobs-bot@users.noreply.github.com"
+          git add jobs.json
+          git diff --staged --quiet || (git commit -m "Actualizar ofertas" && git push)
