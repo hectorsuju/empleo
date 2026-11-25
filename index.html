@@ -3,199 +3,99 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Héctor Suárez · Visual &amp; Product Designer</title>
-<meta name="description" content="Diseñador de producto y gráfico con 20 años de experiencia: UX/UI, sistemas de diseño, dirección de arte y motion.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<title>Radar de empleo · Diseño</title>
 <style>
-:root{
-  --h:228;
-  --bg:#f1f2f7; --surface:#ffffff; --ink:#15173a; --muted:#53567a; --line:#d5d7e6;
-  --accent:hsl(var(--h) 78% 46%); --accent-ink:#fff;
-  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
-  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#10112a; --surface:#181a3b; --ink:#eceefb; --muted:#a4a8d0; --line:#2c2f5c;
-    --accent:hsl(var(--h) 85% 68%); --accent-ink:#10112a; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#10112a; --surface:#181a3b; --ink:#eceefb; --muted:#a4a8d0; --line:#2c2f5c;
-  --accent:hsl(var(--h) 85% 68%); --accent-ink:#10112a; color-scheme:dark;
-}
+:root{--bg:#f4f5f8;--card:#fff;--ink:#16182c;--muted:#5a5e7c;--line:#d9dbe8;--acc:#2548d8;--new:#0d7a4a;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#10111f;--card:#191b30;--ink:#eceefb;--muted:#a3a7cc;--line:#2d3058;--acc:#8aa0ff;--new:#5fd6a0;color-scheme:dark}}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--body);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
-.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
-h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;letter-spacing:-.02em}
-h2{font-size:clamp(1.75rem,4vw,2.5rem);margin-bottom:1.5rem}
-p{max-width:62ch;margin:0 0 1rem}
-.skip{position:absolute;left:-999px;top:0;background:var(--accent);color:var(--accent-ink);padding:.5rem 1rem;z-index:20}
-.skip:focus{left:1rem;top:1rem}
-
-header.top{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0}
-header.top .name{font:700 1.1rem var(--display);text-decoration:none}
-nav a{margin-left:1.25rem;text-decoration:none;color:var(--muted);font-size:.95rem}
-nav a:hover{color:var(--ink)}
-@media (max-width:560px){nav a:not(.cta-s){display:none}}
-
-/* Hero */
-.hero{padding:3rem 0 4.5rem;display:grid;gap:2.5rem;grid-template-columns:1.25fr 1fr;align-items:center}
-@media (max-width:860px){.hero{grid-template-columns:1fr}}
-.hero h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:700}
-.hero h1 span{color:var(--accent)}
-.lead{font-size:1.2rem;color:var(--muted);margin:1.5rem 0 2rem}
-.btns{display:flex;flex-wrap:wrap;gap:.75rem}
-.btn{display:inline-block;padding:.8rem 1.4rem;border-radius:.6rem;text-decoration:none;font-weight:500;border:2px solid var(--accent);transition:transform .15s}
-.btn.pri{background:var(--accent);color:var(--accent-ink)}
-.btn:hover{transform:translateY(-2px)}
-
-/* Token panel: el momento memorable */
-.tokens{background:var(--surface);border:1px solid var(--line);border-radius:1rem;padding:1.5rem}
-.tokens h2{font-size:1.15rem;margin-bottom:.25rem}
-.tokens p{color:var(--muted);font-size:.95rem}
-.sw{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem;margin:1.25rem 0}
-.sw i{aspect-ratio:1;border-radius:.5rem;display:block;border:1px solid var(--line)}
-.sw i:nth-child(1){background:hsl(var(--h) 80% 94%)}
-.sw i:nth-child(2){background:hsl(var(--h) 80% 80%)}
-.sw i:nth-child(3){background:var(--accent)}
-.sw i:nth-child(4){background:hsl(var(--h) 70% 30%)}
-.sw i:nth-child(5){background:hsl(var(--h) 60% 14%)}
-label{display:block;font-weight:500;margin-bottom:.4rem}
-input[type=range]{width:100%;accent-color:var(--accent)}
-code{font:500 .9rem ui-monospace,Menlo,Consolas,monospace;background:var(--bg);padding:.15rem .45rem;border-radius:.3rem}
-
-section{padding:3.5rem 0;border-top:1px solid var(--line)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
-@media (max-width:760px){.two{grid-template-columns:1fr}}
-.facts{display:grid;gap:1rem}
-.facts div{border-left:4px solid var(--accent);padding-left:1rem}
-.facts b{display:block;font:700 1.05rem var(--display)}
-.facts span{color:var(--muted)}
-
-/* Timeline: contenido realmente secuencial */
-ol.tl{list-style:none;margin:0;padding:0 0 0 1.5rem;border-left:2px solid var(--line)}
-ol.tl li{position:relative;padding:0 0 2rem 1.25rem}
-ol.tl li::before{content:"";position:absolute;left:-1.95rem;top:.55rem;width:.9rem;height:.9rem;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
-ol.tl time{color:var(--muted);font-size:.9rem}
-ol.tl h3{font-size:1.25rem;margin:.15rem 0 .35rem}
-ol.tl p{margin:0;color:var(--muted)}
-
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.5rem}
-.cols h3{font-size:1.1rem;margin-bottom:.5rem}
-.cols p{color:var(--muted);font-size:1rem}
-.clients{display:flex;flex-wrap:wrap;gap:.6rem;list-style:none;padding:0;margin:0}
-.clients li{border:1px solid var(--line);background:var(--surface);padding:.45rem .95rem;border-radius:2rem}
-
-.contact{text-align:left}
-.contact a.mail{font:700 clamp(1.5rem,5vw,3rem) var(--display);color:var(--accent);text-decoration:none;word-break:break-word}
-.contact a.mail:hover{text-decoration:underline}
-.links{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1.5rem}
-footer{padding:2rem 0;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.w{max-width:60rem;margin:0 auto;padding:1.25rem}
+h1{font-size:1.7rem;margin:.5rem 0 .25rem}
+h2{font-size:1.1rem;margin:2rem 0 .75rem}
+.muted{color:var(--muted)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.bar{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
+input,select{font:inherit;padding:.55rem .75rem;border:1px solid var(--line);border-radius:.5rem;background:var(--card);color:var(--ink)}
+input{flex:1;min-width:12rem}
+ul.l{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.job{background:var(--card);border:1px solid var(--line);border-radius:.7rem;padding:.9rem 1rem}
+.job a{color:var(--ink);font-weight:600;text-decoration:none}
+.job a:hover{color:var(--acc);text-decoration:underline}
+.meta{font-size:.9rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.25rem .9rem;margin-top:.2rem}
+.tag{font-size:.78rem;border:1px solid var(--line);border-radius:1rem;padding:0 .55rem}
+.tag.n{color:var(--new);border-color:var(--new);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.75rem}
+.role{background:var(--card);border:1px solid var(--line);border-radius:.7rem;padding:.8rem 1rem}
+.role b{display:block;margin-bottom:.3rem}
+.role a{margin-right:.8rem;color:var(--acc);font-size:.92rem}
+.empty{padding:1.5rem;border:1px dashed var(--line);border-radius:.7rem;color:var(--muted)}
 </style>
 </head>
 <body>
-<a class="skip" href="#contacto">Ir al contacto</a>
-<div class="wrap">
-  <header class="top">
-    <a class="name" href="#">Héctor Suárez</a>
-    <nav aria-label="Principal">
-      <a href="#sobre-mi">Sobre mí</a>
-      <a href="#experiencia">Experiencia</a>
-      <a href="#skills">Skills</a>
-      <a class="cta-s" href="#contacto">Contacto</a>
-    </nav>
-  </header>
+<div class="w">
+  <h1>Radar de empleo</h1>
+  <p class="muted" id="st">Cargando…</p>
 
-  <main id="main">
-    <div class="hero">
-      <div>
-        <h1>Diseño productos digitales que se entienden y <span>se pueden construir</span>.</h1>
-        <p class="lead">Visual &amp; Product Designer con 20 años de experiencia. UX/UI, sistemas de diseño, dirección de arte y motion, de la investigación al seguimiento tras el lanzamiento.</p>
-        <div class="btns">
-          <a class="btn pri" href="mailto:hola@hectorsuarez.es">Escríbeme</a>
-          <a class="btn" href="https://www.linkedin.com/in/hectorsuju" rel="noopener">Ver LinkedIn</a>
-        </div>
-      </div>
+  <h2>Ofertas detectadas</h2>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Filtrar por título o empresa" aria-label="Filtrar">
+    <select id="src" aria-label="Portal"><option value="">Todos los portales</option></select>
+    <select id="mode" aria-label="Modalidad"><option value="">Barcelona y remoto</option><option value="r">Solo remoto</option><option value="b">Solo Barcelona</option></select>
+  </div>
+  <ul class="l" id="list"></ul>
 
-      <aside class="tokens" aria-labelledby="tk">
-        <h2 id="tk">Un sistema, una variable</h2>
-        <p>Cambia un solo token y toda la página se recalcula. Así trabajo los sistemas de diseño.</p>
-        <div class="sw" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-        <label for="hue">Tono de marca</label>
-        <input id="hue" type="range" min="0" max="360" value="228" aria-describedby="hv">
-        <p id="hv" style="margin:.75rem 0 0"><code>--brand-hue: <output id="hout">228</output></code></p>
-      </aside>
-    </div>
-
-    <section id="sobre-mi">
-      <div class="two">
-        <div>
-          <h2>Producto con base creativa</h2>
-          <p>Durante 7 años en el sector Health lideré la experiencia de usuario de Phemium, un producto complejo usado por CatSalut, Clínica Universidad de Navarra, Asepeyo y Cofares. También colaboré con Fundació Bancaria (Caixabank).</p>
-          <p>Antes de especializarme en producto, pasé más de 10 años como diseñador visual, director de arte y motion designer en agencias y estudios de Barcelona. Esa base es la que hoy cuida la calidad visual de cada producto.</p>
-        </div>
-        <div class="facts">
-          <div><b>Accesibilidad y sostenibilidad</b><span>Soluciones digitales que funcionan para todo el mundo.</span></div>
-          <div><b>De la investigación al handoff</b><span>Investigación generativa, prototipos de alta fidelidad y supervisión de la implementación.</span></div>
-          <div><b>Mejora continua</b><span>Ciclos de optimización basados en KPIs y feedback de usabilidad.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="experiencia">
-      <h2>Trayectoria</h2>
-      <ol class="tl">
-        <li><time>Oct. 2018 – Ene. 2026</time><h3>Design &amp; UX/UI Specialist · Fihoca / Costaisa</h3><p>Liderazgo de diseño del producto Phemium: estrategia UX/UI, coherencia visual entre proyectos y coordinación de todo el ciclo de diseño.</p></li>
-        <li><time>2017 – 2018</time><h3>Senior Interactive Designer · Morillas Brand Design / Seat – Rucker Lipsa</h3><p>Diseño UI/UX/HMI de los contenidos para las pantallas de los coches del futuro.</p></li>
-        <li><time>Jun. 2014 – May. 2017</time><h3>Creative &amp; Art Supervisor · Be Agency</h3><p>Dirección de campañas digitales de captación, fidelización y ventas, y proyectos de Social Live Shopping multiplataforma.</p></li>
-        <li><time>Sep. 2010 – May. 2014</time><h3>Art Supervisor &amp; Designer UX/UI · Tatamia / Colectivos Vip</h3><p>Dirección de arte de campañas de televisión y diseño de las plataformas interactivas de Colectivos Vip.</p></li>
-        <li><time>2002 – 2010</time><h3>Motion &amp; Art · TBWA, Voila DVD Arts Studio / Tiramisu</h3><p>Dirección de un equipo multidisciplinar de diseñadores, motion graphers y editores, y diseño interactivo para proyectos multimedia.</p></li>
-      </ol>
-      <h3 style="margin:1rem 0 .8rem;font-size:1.1rem">Marcas con las que he trabajado</h3>
-      <ul class="clients">
-        <li>CatSalut</li><li>Clínica Universidad de Navarra</li><li>Asepeyo</li><li>Cofares</li><li>Fundació Bancaria</li><li>Jack Daniel’s</li><li>Ben &amp; Jerry’s</li><li>Oakley</li><li>Desigual</li><li>Lavazza</li><li>TMB</li><li>Unicef</li><li>Generalitat de Catalunya</li>
-      </ul>
-    </section>
-
-    <section id="skills">
-      <h2>Qué aporto</h2>
-      <div class="cols">
-        <div><h3>UX y research</h3><p>Investigación de usuario, arquitectura de información, test de usabilidad, accesibilidad digital, prototipado y flujos.</p></div>
-        <div><h3>UI y design systems</h3><p>Sistemas multimarca, design tokens, documentación, diseño responsive y handoff a desarrollo.</p></div>
-        <div><h3>Liderazgo</h3><p>Equipos de diseño, gestión de proyectos y colaboración estrecha con ingeniería.</p></div>
-        <div><h3>Herramientas</h3><p>Figma, FigJam, Maze, Storybook, Jira, Miro, Confluence, Adobe CC, HTML5 y CSS3.</p></div>
-      </div>
-    </section>
-
-    <section id="contacto" class="contact">
-      <h2>¿Hablamos?</h2>
-      <a class="mail" href="mailto:hola@hectorsuarez.es">hola@hectorsuarez.es</a>
-      <div class="links">
-        <a href="https://hectorsuarez.es" rel="noopener">hectorsuarez.es</a>
-        <a href="https://www.linkedin.com/in/hectorsuju" rel="noopener">LinkedIn</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>© 2026 Héctor Suárez. Barcelona.</footer>
+  <h2>Búsquedas directas (últimas 24 h)</h2>
+  <p class="muted">LinkedIn e Indeed no permiten consultarlos automáticamente. Estos enlaces abren cada búsqueda ya filtrada.</p>
+  <div class="grid" id="links"></div>
 </div>
-
 <script>
-(function(){
-  var r=document.getElementById('hue'), o=document.getElementById('hout');
-  r.addEventListener('input',function(){
-    document.documentElement.style.setProperty('--h',r.value);
-    o.textContent=r.value;
+var ROLES=["Product Designer","Diseñador UX/UI","Graphic Designer","Director de Arte","UX Designer","Visual Designer"];
+var $=function(i){return document.getElementById(i)};
+var DATA={jobs:[]};
+function e(s){return encodeURIComponent(s)}
+function ago(d){var m=Math.round((Date.now()-new Date(d))/6e4);if(m<60)return"hace "+Math.max(m,1)+" min";if(m<1440)return"hace "+Math.round(m/60)+" h";return"hace "+Math.round(m/1440)+" d"}
+function links(){
+  var g=$("links");g.textContent="";
+  (DATA.roles||ROLES).forEach(function(r){
+    var d=document.createElement("div");d.className="role";
+    var b=document.createElement("b");b.textContent=r;d.appendChild(b);
+    [["LinkedIn BCN","https://www.linkedin.com/jobs/search/?keywords="+e(r)+"&location="+e("Barcelona, Catalonia, Spain")+"&f_TPR=r86400&sortBy=DD"],
+     ["LinkedIn remoto","https://www.linkedin.com/jobs/search/?keywords="+e(r)+"&location=Spain&f_WT=2&f_TPR=r86400&sortBy=DD"],
+     ["Indeed BCN","https://es.indeed.com/jobs?q="+e(r)+"&l=Barcelona&fromage=1&sort=date"],
+     ["Indeed remoto","https://es.indeed.com/jobs?q="+e(r+" remoto")+"&fromage=1&sort=date"],
+     ["InfoJobs","https://www.infojobs.net/jobsearch/search-results/list.xhtml?keyword="+e(r)+"&provinceIds=9&sortBy=PUBLICATION_DATE"]
+    ].forEach(function(l){var a=document.createElement("a");a.href=l[1];a.textContent=l[0];a.target="_blank";a.rel="noopener";d.appendChild(a)});
+    g.appendChild(d);
   });
-})();
+}
+function render(){
+  var q=$("q").value.toLowerCase(),s=$("src").value,m=$("mode").value,ul=$("list");ul.textContent="";
+  var rows=DATA.jobs.filter(function(j){
+    return(!q||(j.title+" "+j.company).toLowerCase().indexOf(q)>-1)&&(!s||j.source===s)&&(!m||(m==="r")===!!j.remote)});
+  if(!rows.length){var p=document.createElement("div");p.className="empty";
+    p.textContent=DATA.jobs.length?"Ninguna oferta coincide con los filtros.":"Aún no hay ofertas. Configura las claves de InfoJobs o Adzuna (ver README) y lanza la Action.";ul.appendChild(p);return}
+  rows.slice(0,150).forEach(function(j){
+    var li=document.createElement("li");li.className="job";
+    var a=document.createElement("a");a.href=j.url;a.target="_blank";a.rel="noopener";a.textContent=j.title;
+    var mt=document.createElement("div");mt.className="meta";
+    var when=j.published||j.firstSeen;
+    [j.company,j.place,j.source,ago(when)].filter(Boolean).forEach(function(t){var x=document.createElement("span");x.textContent=t;mt.appendChild(x)});
+    if(j.remote){var r=document.createElement("span");r.className="tag";r.textContent="Remoto";mt.appendChild(r)}
+    if(Date.now()-new Date(j.firstSeen)<36e5){var n=document.createElement("span");n.className="tag n";n.textContent="Nueva";mt.appendChild(n)}
+    li.appendChild(a);li.appendChild(mt);ul.appendChild(li);
+  });
+}
+function load(){
+  fetch("jobs.json?t="+Date.now()).then(function(r){return r.json()}).then(function(d){
+    DATA=d;
+    var s=$("src"),cur=s.value;s.length=1;
+    Array.from(new Set(d.jobs.map(function(j){return j.source}))).forEach(function(x){s.add(new Option(x,x))});s.value=cur;
+    $("st").textContent=d.updated?"Última actualización: "+new Date(d.updated).toLocaleString("es-ES")+" · "+d.jobs.length+" ofertas guardadas · se refresca cada 15 min":"Sin datos todavía.";
+    links();render();
+  }).catch(function(){$("st").textContent="No se pudo cargar jobs.json.";links()});
+}
+["q","src","mode"].forEach(function(i){$(i).addEventListener("input",render)});
+load();setInterval(load,9e5);
 </script>
 </body>
 </html>
