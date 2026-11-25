@@ -3,133 +3,87 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Radar de empleo · Diseño</title>
+<title>Radar de empleo</title>
 <style>
-:root{--bg:#f4f5f8;--card:#fff;--ink:#16182c;--muted:#5a5e7c;--line:#d9dbe8;--acc:#2548d8;--new:#0d7a4a;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#10111f;--card:#191b30;--ink:#eceefb;--muted:#a3a7cc;--line:#2d3058;--acc:#8aa0ff;--new:#5fd6a0;color-scheme:dark}}
+:root{--bg:#f4f5f8;--card:#fff;--ink:#16182c;--muted:#5a5e7c;--line:#d9dbe8;--acc:#2548d8;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#10111f;--card:#191b30;--ink:#eceefb;--muted:#a3a7cc;--line:#2d3058;--acc:#8aa0ff;color-scheme:dark}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
-.w{max-width:60rem;margin:0 auto;padding:1.25rem}
-h1{font-size:1.7rem;margin:.5rem 0 .25rem}
-h2{font-size:1.1rem;margin:2rem 0 .75rem}
-.muted{color:var(--muted)}
+.w{max-width:44rem;margin:0 auto;padding:1.25rem}
+h1{font-size:1.6rem;margin:.5rem 0 .2rem}
+.muted{color:var(--muted);font-size:.92rem}
 :focus-visible{outline:3px solid var(--acc);outline-offset:2px}
-.bar{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
-input,select{font:inherit;padding:.55rem .75rem;border:1px solid var(--line);border-radius:.5rem;background:var(--card);color:var(--ink)}
-input{flex:1;min-width:12rem}
-ul.l{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
-.job{background:var(--card);border:1px solid var(--line);border-radius:.7rem;padding:.9rem 1rem}
-.job a{color:var(--ink);font-weight:600;text-decoration:none}
-.job a:hover{color:var(--acc);text-decoration:underline}
-.meta{font-size:.9rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.25rem .9rem;margin-top:.2rem}
-.tag{font-size:.78rem;border:1px solid var(--line);border-radius:1rem;padding:0 .55rem}
-.tag.n{color:var(--new);border-color:var(--new);font-weight:600}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.75rem}
-.role{background:var(--card);border:1px solid var(--line);border-radius:.7rem;padding:.8rem 1rem}
-.role b{display:block;margin-bottom:.3rem}
-.role a{margin-right:.8rem;color:var(--acc);font-size:.92rem}
-.empty{padding:1.5rem;border:1px dashed var(--line);border-radius:.7rem;color:var(--muted)}
-.co{background:var(--card);border:1px solid var(--line);border-radius:.7rem;padding:.9rem 1rem}
-.co h3{margin:0;font-size:1.05rem;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
-.co ul{list-style:none;margin:.6rem 0 0;padding:0;display:grid;gap:.55rem}
-.co li{border-top:1px solid var(--line);padding-top:.55rem}
-.co li a.t{color:var(--ink);font-weight:600;text-decoration:none}
-.co li a.t:hover{color:var(--acc);text-decoration:underline}
-.src a{color:var(--acc);font-size:.85rem;margin-right:.6rem}
-details summary{cursor:pointer;color:var(--acc);margin-top:.6rem;font-size:.92rem}
+input{width:100%;font:inherit;padding:.6rem .8rem;margin:1rem 0;border:1px solid var(--line);border-radius:.5rem;background:var(--card);color:var(--ink)}
+ul{list-style:none;margin:0;padding:0}
+#list{display:grid;gap:.7rem}
+.co{background:var(--card);border:1px solid var(--line);border-radius:.7rem;padding:.8rem 1rem}
+.co h2{font-size:1.05rem;margin:0 0 .3rem}
+.co li{padding:.2rem 0}
+a{color:var(--acc)}
+.empty{padding:1.2rem;border:1px dashed var(--line);border-radius:.7rem;color:var(--muted)}
+details{margin-top:2rem}
+summary{cursor:pointer;color:var(--acc)}
+details p{margin:.8rem 0 .3rem;font-weight:600}
+details a{display:inline-block;margin-right:.9rem}
 </style>
 </head>
 <body>
 <div class="w">
   <h1>Radar de empleo</h1>
   <p class="muted" id="st">Cargando…</p>
-
-  <h2>Ofertas por empresa</h2>
-  <div class="bar">
-    <input id="q" type="search" placeholder="Filtrar por título o empresa" aria-label="Filtrar">
-    <select id="src" aria-label="Portal"><option value="">Todos los portales</option></select>
-    <select id="mode" aria-label="Modalidad"><option value="">Barcelona y remoto</option><option value="r">Solo remoto</option><option value="b">Solo Barcelona</option></select>
-  </div>
-  <ul class="l" id="list"></ul>
-
-  <h2>Búsquedas directas (últimas 24 h)</h2>
-  <p class="muted">LinkedIn e Indeed no permiten consultarlos automáticamente. Estos enlaces abren cada búsqueda ya filtrada.</p>
-  <div class="grid" id="links"></div>
+  <input id="q" type="search" placeholder="Buscar empresa o puesto" aria-label="Buscar">
+  <ul id="list"></ul>
+  <details>
+    <summary>Buscar directamente en LinkedIn, Indeed e InfoJobs</summary>
+    <div id="links"></div>
+  </details>
 </div>
 <script>
 var ROLES=["Product Designer","Diseñador UX/UI","Graphic Designer","Director de Arte","UX Designer","Visual Designer"];
-var $=function(i){return document.getElementById(i)};
-var DATA={jobs:[]};
+var $=function(i){return document.getElementById(i)},DATA={jobs:[]};
 function e(s){return encodeURIComponent(s)}
+function norm(t){return(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim()}
 function ago(d){var m=Math.round((Date.now()-new Date(d))/6e4);if(m<60)return"hace "+Math.max(m,1)+" min";if(m<1440)return"hace "+Math.round(m/60)+" h";return"hace "+Math.round(m/1440)+" d"}
 function links(){
   var g=$("links");g.textContent="";
   (DATA.roles||ROLES).forEach(function(r){
-    var d=document.createElement("div");d.className="role";
-    var b=document.createElement("b");b.textContent=r;d.appendChild(b);
-    [["LinkedIn BCN","https://www.linkedin.com/jobs/search/?keywords="+e(r)+"&location="+e("Barcelona, Catalonia, Spain")+"&f_TPR=r86400&sortBy=DD"],
-     ["LinkedIn remoto","https://www.linkedin.com/jobs/search/?keywords="+e(r)+"&location=Spain&f_WT=2&f_TPR=r86400&sortBy=DD"],
-     ["Indeed BCN","https://es.indeed.com/jobs?q="+e(r)+"&l=Barcelona&fromage=1&sort=date"],
-     ["Indeed remoto","https://es.indeed.com/jobs?q="+e(r+" remoto")+"&fromage=1&sort=date"],
+    var p=document.createElement("p");p.textContent=r;g.appendChild(p);
+    [["LinkedIn","https://www.linkedin.com/jobs/search/?keywords="+e(r)+"&location="+e("Barcelona, Catalonia, Spain")+"&f_TPR=r86400&sortBy=DD"],
+     ["Indeed","https://es.indeed.com/jobs?q="+e(r)+"&l=Barcelona&fromage=1&sort=date"],
      ["InfoJobs","https://www.infojobs.net/jobsearch/search-results/list.xhtml?keyword="+e(r)+"&provinceIds=9&sortBy=PUBLICATION_DATE"]
-    ].forEach(function(l){var a=document.createElement("a");a.href=l[1];a.textContent=l[0];a.target="_blank";a.rel="noopener";d.appendChild(a)});
-    g.appendChild(d);
+    ].forEach(function(l){var a=document.createElement("a");a.href=l[1];a.textContent=l[0];a.target="_blank";a.rel="noopener";g.appendChild(a)});
   });
-}
-function norm(t){return(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim()}
-function sp(txt,cls){var x=document.createElement("span");if(cls)x.className=cls;x.textContent=txt;return x}
-function offerLi(o){
-  var li=document.createElement("li");
-  var a=document.createElement("a");a.className="t";a.href=o.links[0].url;a.target="_blank";a.rel="noopener";a.textContent=o.title;li.appendChild(a);
-  var mt=document.createElement("div");mt.className="meta";
-  if(o.place)mt.appendChild(sp(o.place));mt.appendChild(sp(ago(o.when)));
-  if(o.remote)mt.appendChild(sp("Remoto","tag"));
-  if(o.fresh)mt.appendChild(sp("Nueva","tag n"));
-  li.appendChild(mt);
-  var sr=document.createElement("div");sr.className="src";
-  o.links.forEach(function(l){var x=document.createElement("a");x.href=l.url;x.target="_blank";x.rel="noopener";x.textContent="Abrir en "+l.source;sr.appendChild(x)});
-  li.appendChild(sr);return li;
 }
 function render(){
-  var q=$("q").value.toLowerCase(),s=$("src").value,m=$("mode").value,ul=$("list");ul.textContent="";
-  var rows=DATA.jobs.filter(function(j){
-    return(!q||(j.title+" "+j.company).toLowerCase().indexOf(q)>-1)&&(!s||j.source===s)&&(!m||(m==="r")===!!j.remote)});
-  var offers={};
-  rows.forEach(function(j){
-    var k=norm(j.company)+"|"+norm(j.title),w=j.published||j.firstSeen,o=offers[k];
-    if(!o)o=offers[k]={title:j.title,company:j.company||"",place:j.place,remote:!!j.remote,when:w,fresh:false,links:[]};
-    if(!o.links.some(function(l){return l.source===j.source}))o.links.push({source:j.source,url:j.url});
-    if(new Date(w)>new Date(o.when))o.when=w;
-    if(Date.now()-new Date(j.firstSeen)<36e5)o.fresh=true;
+  var q=$("q").value.toLowerCase(),ul=$("list"),seen={},groups={};ul.textContent="";
+  DATA.jobs.forEach(function(j){
+    if(q&&(j.title+" "+j.company).toLowerCase().indexOf(q)<0)return;
+    var k=norm(j.company)+"|"+norm(j.title);if(seen[k])return;seen[k]=1;
+    var g=norm(j.company)||"-";(groups[g]=groups[g]||{name:j.company||"Empresa no indicada",items:[]}).items.push(j);
   });
-  var groups={};
-  Object.keys(offers).forEach(function(k){var o=offers[k],g=norm(o.company)||"sin-empresa";(groups[g]=groups[g]||{name:o.company||"Empresa no indicada",items:[]}).items.push(o)});
-  var list=Object.keys(groups).map(function(k){var g=groups[k];g.items.sort(function(a,b){return new Date(b.when)-new Date(a.when)});g.when=g.items[0].when;return g})
-    .sort(function(a,b){return new Date(b.when)-new Date(a.when)});
-  if(!list.length){var p=document.createElement("div");p.className="empty";
-    p.textContent=DATA.jobs.length?"Ninguna oferta coincide con los filtros.":"Aún no hay ofertas. Configura las claves de InfoJobs o Adzuna (ver README) y lanza la Action.";ul.appendChild(p);return}
+  var list=Object.keys(groups).map(function(k){return groups[k]});
+  if(!list.length){var d=document.createElement("div");d.className="empty";
+    d.textContent=DATA.jobs.length?"Ninguna oferta coincide.":"Aún no hay ofertas. Configura las claves y lanza la Action (ver README).";ul.appendChild(d);return}
   list.slice(0,100).forEach(function(g){
     var c=document.createElement("li");c.className="co";
-    var h=document.createElement("h3");h.appendChild(sp(g.name));
-    h.appendChild(sp(g.items.length+(g.items.length===1?" oferta":" ofertas"),"tag"));
-    if(g.items.some(function(o){return o.fresh}))h.appendChild(sp("Nueva","tag n"));
-    c.appendChild(h);
-    var first=document.createElement("ul");g.items.slice(0,3).forEach(function(o){first.appendChild(offerLi(o))});c.appendChild(first);
-    if(g.items.length>3){var d=document.createElement("details"),sm=document.createElement("summary");sm.textContent="Ver "+(g.items.length-3)+" más";d.appendChild(sm);
-      var rest=document.createElement("ul");g.items.slice(3).forEach(function(o){rest.appendChild(offerLi(o))});d.appendChild(rest);c.appendChild(d)}
-    ul.appendChild(c);
+    var h=document.createElement("h2");h.textContent=g.name+" ("+g.items.length+")";c.appendChild(h);
+    var u=document.createElement("ul");
+    g.items.forEach(function(j){
+      var li=document.createElement("li"),a=document.createElement("a");
+      a.href=j.url;a.target="_blank";a.rel="noopener";a.textContent=j.title;li.appendChild(a);
+      li.appendChild(document.createTextNode(" · "+(j.remote?"Remoto":j.place||"")+" · "+ago(j.published||j.firstSeen)));
+      u.appendChild(li);
+    });
+    c.appendChild(u);ul.appendChild(c);
   });
 }
 function load(){
   fetch("jobs.json?t="+Date.now()).then(function(r){return r.json()}).then(function(d){
-    DATA=d;
-    var s=$("src"),cur=s.value;s.length=1;
-    Array.from(new Set(d.jobs.map(function(j){return j.source}))).forEach(function(x){s.add(new Option(x,x))});s.value=cur;
-    $("st").textContent=d.updated?"Última actualización: "+new Date(d.updated).toLocaleString("es-ES")+" · "+d.jobs.length+" ofertas guardadas · se refresca cada 15 min":"Sin datos todavía.";
+    DATA=d;$("st").textContent=d.updated?"Actualizado: "+new Date(d.updated).toLocaleString("es-ES"):"Sin datos todavía.";
     links();render();
   }).catch(function(){$("st").textContent="No se pudo cargar jobs.json.";links()});
 }
-["q","src","mode"].forEach(function(i){$(i).addEventListener("input",render)});
+$("q").addEventListener("input",render);
 load();setInterval(load,9e5);
 </script>
 </body>
