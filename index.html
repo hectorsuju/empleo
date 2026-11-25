@@ -29,6 +29,14 @@ ul.l{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
 .role b{display:block;margin-bottom:.3rem}
 .role a{margin-right:.8rem;color:var(--acc);font-size:.92rem}
 .empty{padding:1.5rem;border:1px dashed var(--line);border-radius:.7rem;color:var(--muted)}
+.co{background:var(--card);border:1px solid var(--line);border-radius:.7rem;padding:.9rem 1rem}
+.co h3{margin:0;font-size:1.05rem;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.co ul{list-style:none;margin:.6rem 0 0;padding:0;display:grid;gap:.55rem}
+.co li{border-top:1px solid var(--line);padding-top:.55rem}
+.co li a.t{color:var(--ink);font-weight:600;text-decoration:none}
+.co li a.t:hover{color:var(--acc);text-decoration:underline}
+.src a{color:var(--acc);font-size:.85rem;margin-right:.6rem}
+details summary{cursor:pointer;color:var(--acc);margin-top:.6rem;font-size:.92rem}
 </style>
 </head>
 <body>
@@ -36,7 +44,7 @@ ul.l{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
   <h1>Radar de empleo</h1>
   <p class="muted" id="st">Cargando…</p>
 
-  <h2>Ofertas detectadas</h2>
+  <h2>Ofertas por empresa</h2>
   <div class="bar">
     <input id="q" type="search" placeholder="Filtrar por título o empresa" aria-label="Filtrar">
     <select id="src" aria-label="Portal"><option value="">Todos los portales</option></select>
@@ -68,21 +76,48 @@ function links(){
     g.appendChild(d);
   });
 }
+function norm(t){return(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim()}
+function sp(txt,cls){var x=document.createElement("span");if(cls)x.className=cls;x.textContent=txt;return x}
+function offerLi(o){
+  var li=document.createElement("li");
+  var a=document.createElement("a");a.className="t";a.href=o.links[0].url;a.target="_blank";a.rel="noopener";a.textContent=o.title;li.appendChild(a);
+  var mt=document.createElement("div");mt.className="meta";
+  if(o.place)mt.appendChild(sp(o.place));mt.appendChild(sp(ago(o.when)));
+  if(o.remote)mt.appendChild(sp("Remoto","tag"));
+  if(o.fresh)mt.appendChild(sp("Nueva","tag n"));
+  li.appendChild(mt);
+  var sr=document.createElement("div");sr.className="src";
+  o.links.forEach(function(l){var x=document.createElement("a");x.href=l.url;x.target="_blank";x.rel="noopener";x.textContent="Abrir en "+l.source;sr.appendChild(x)});
+  li.appendChild(sr);return li;
+}
 function render(){
   var q=$("q").value.toLowerCase(),s=$("src").value,m=$("mode").value,ul=$("list");ul.textContent="";
   var rows=DATA.jobs.filter(function(j){
     return(!q||(j.title+" "+j.company).toLowerCase().indexOf(q)>-1)&&(!s||j.source===s)&&(!m||(m==="r")===!!j.remote)});
-  if(!rows.length){var p=document.createElement("div");p.className="empty";
+  var offers={};
+  rows.forEach(function(j){
+    var k=norm(j.company)+"|"+norm(j.title),w=j.published||j.firstSeen,o=offers[k];
+    if(!o)o=offers[k]={title:j.title,company:j.company||"",place:j.place,remote:!!j.remote,when:w,fresh:false,links:[]};
+    if(!o.links.some(function(l){return l.source===j.source}))o.links.push({source:j.source,url:j.url});
+    if(new Date(w)>new Date(o.when))o.when=w;
+    if(Date.now()-new Date(j.firstSeen)<36e5)o.fresh=true;
+  });
+  var groups={};
+  Object.keys(offers).forEach(function(k){var o=offers[k],g=norm(o.company)||"sin-empresa";(groups[g]=groups[g]||{name:o.company||"Empresa no indicada",items:[]}).items.push(o)});
+  var list=Object.keys(groups).map(function(k){var g=groups[k];g.items.sort(function(a,b){return new Date(b.when)-new Date(a.when)});g.when=g.items[0].when;return g})
+    .sort(function(a,b){return new Date(b.when)-new Date(a.when)});
+  if(!list.length){var p=document.createElement("div");p.className="empty";
     p.textContent=DATA.jobs.length?"Ninguna oferta coincide con los filtros.":"Aún no hay ofertas. Configura las claves de InfoJobs o Adzuna (ver README) y lanza la Action.";ul.appendChild(p);return}
-  rows.slice(0,150).forEach(function(j){
-    var li=document.createElement("li");li.className="job";
-    var a=document.createElement("a");a.href=j.url;a.target="_blank";a.rel="noopener";a.textContent=j.title;
-    var mt=document.createElement("div");mt.className="meta";
-    var when=j.published||j.firstSeen;
-    [j.company,j.place,j.source,ago(when)].filter(Boolean).forEach(function(t){var x=document.createElement("span");x.textContent=t;mt.appendChild(x)});
-    if(j.remote){var r=document.createElement("span");r.className="tag";r.textContent="Remoto";mt.appendChild(r)}
-    if(Date.now()-new Date(j.firstSeen)<36e5){var n=document.createElement("span");n.className="tag n";n.textContent="Nueva";mt.appendChild(n)}
-    li.appendChild(a);li.appendChild(mt);ul.appendChild(li);
+  list.slice(0,100).forEach(function(g){
+    var c=document.createElement("li");c.className="co";
+    var h=document.createElement("h3");h.appendChild(sp(g.name));
+    h.appendChild(sp(g.items.length+(g.items.length===1?" oferta":" ofertas"),"tag"));
+    if(g.items.some(function(o){return o.fresh}))h.appendChild(sp("Nueva","tag n"));
+    c.appendChild(h);
+    var first=document.createElement("ul");g.items.slice(0,3).forEach(function(o){first.appendChild(offerLi(o))});c.appendChild(first);
+    if(g.items.length>3){var d=document.createElement("details"),sm=document.createElement("summary");sm.textContent="Ver "+(g.items.length-3)+" más";d.appendChild(sm);
+      var rest=document.createElement("ul");g.items.slice(3).forEach(function(o){rest.appendChild(offerLi(o))});d.appendChild(rest);c.appendChild(d)}
+    ul.appendChild(c);
   });
 }
 function load(){
